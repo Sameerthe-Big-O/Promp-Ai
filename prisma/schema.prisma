@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Prompt {
+  id      String @id @default(uuid())
+  creater User   @relation(fields: [userId], references: [id])
+  userId  String
+  prompt  String
+  tag     String
+}
+
+model User {
+  id     String   @id @default(uuid())
+  name   String
+  email  String   @unique
+  image  String
+  Prompt Prompt[]
+}
+
+//*a super keys is basically a set of all the keys that can used as the primary key
+
+//all those attributes in a table that is capable of identifying the other attributes of the table in a unique manner are all super keys. either combine or solo
+
+//https://static.javatpoint.com/dbms/images/super-key-in-dbms2.png
+
+//*primary key is the single and unique super key that can identify the row
+
+//Candidate Key
+
+//The minimal set of attributes that can uniquely identify a tuple is known as a candidate key. For Example, STUD_NO in STUDENT relation. 
+
+//*a primary key itself is a candidate key but usually we two or more attributes are use to uniquely identify row then we called as a candidate key
+
+// It is a minimal super key.
+// It is a super key with no repeated data is called a candidate key.
+// The minimal set of attributes that can uniquely identify a record.
+// It must contain unique values.
+// It can contain NULL values.
+// Every table must have at least a single candidate key.
+// A table can have multiple candidate keys but only one primary key.
+// The value of the Candidate Key is unique and may be null for a tuple.
+// There can be more than one candidate key in a relationship. 
+
+// Primary Key
+// There can be more than one candidate key in relation out of which one can be chosen as the primary key. For Example, STUD_NO, as well as STUD_PHONE, are candidate keys for relation STUDENT but STUD_NO can be chosen as the primary key (only one out of many candidate keys). 
+
+//It cannot be NULL.
+
+// I) Super Key – An attribute or a combination of attribute that is used to identify the records uniquely is known as Super Key. A table can have many Super Keys.
+
+// E.g. of Super Key
+
+// ID
+// ID, Name
+// ID, Address
+// ID, Department_ID
+// ID, Salary
+// Name, Address
+// Name, Address, Department_ID
+// So on as any combination which can identify the records uniquely will be a Super Key.
+
+// (II) Candidate Key – It can be defined as minimal Super Key or irreducible Super Key. In other words an attribute or a combination of attribute that identifies the record uniquely but none of its proper subsets can identify the records uniquely.
+
+// E.g. of Candidate Key
+
+// ID
+// Name, Address
+// For above table we have only two Candidate Keys (i.e. Irreducible Super Key) used to identify the records from the table uniquely. ID Key can identify the record uniquely and similarly combination of Name and Address can identify the record uniquely, but neither Name nor Address can be used to identify the records uniquely as it might be possible that we have two employees with similar name or two employees from the same house.
+
+// (III) Primary Key – A Candidate Key that is used by the database designer for unique identification of each row in a table is known as Primary Key. A Primary Key can consist of one or more attributes of a table.
+
+// E.g. of Primary Key - Database designer can use one of the Candidate Key as a Primary Key. In this case we have “ID” and “Name, Address” as Candidate Key, we will consider “ID” Key as a Primary Key as the other key is the combination of more than one attribute.
+
+// (IV) Foreign Key – A foreign key is an attribute or combination of attribute in one base table that points to the candidate key (generally it is the primary key) of another table. The purpose of the foreign key is to ensure referential integrity of the data i.e. only values that are supposed to appear in the database are permitted.
+
+// E.g. of Foreign Key – Let consider we have another table i.e. Department Table with Attributes “Department_ID”, “Department_Name”, “Manager_ID”, ”Location_ID” with Department_ID as an Primary Key. Now the Department_ID attribute of Employee Table (dependent or child table) can be defined as the Foreign Key as it can reference to the Department_ID attribute of the Departments table (the referenced or parent table), a Foreign Key value must match an existing value in the parent table or be NULL.
+
+// (V) Composite Key – If we use multiple attributes to create a Primary Key then that Primary Key is called Composite Key (also called a Compound Key or Concatenated Key).
+
+// E.g. of Composite Key, if we have used “Name, Address” as a Primary Key then it will be our Composite Key.
+
+// (VI) Alternate Key – Alternate Key can be any of the Candidate Keys except for the Primary Key.
+
+// E.g. of Alternate Key is “Name, Address” as it is the only other Candidate Key which is not a Primary Key.
+
+// (VII) Secondary Key – The attributes that are not even the Super Key but can be still used for identification of records (not unique) are known as Secondary Key.
+
+// E.g. of Secondary Key can be Name, Address, Salary, Department_ID etc. as they can identify the records but they might not be unique.
