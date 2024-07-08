@@ -1,9 +1,9 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FaceProvider from "next-auth/providers/facebook";
 import prisma from "../../../../prisma/client";
 import { GoogleProfile, SessionDate } from "@/types/next-autth/types";
-const handler: NextAuthOptions = NextAuth({
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
