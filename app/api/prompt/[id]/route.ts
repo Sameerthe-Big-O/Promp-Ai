@@ -1,16 +1,13 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (
-  res: NextResponse,
-  {
-    params,
-  }: {
-    params: {
-      id: string;
-    };
-  }
-) => {
+export const GET = async ({
+  params,
+}: {
+  params: {
+    id: string;
+  };
+}) => {
   try {
     console.log("id is here", params.id);
     const prompts = await prisma.prompt.findUnique({
