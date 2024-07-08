@@ -29,7 +29,7 @@ const Profile = () => {
 
 
   const handleEdit=(post : Post)=> {
-    console.log('post',post)
+
      router.push(`/update-prompt?id=${post.id}`)
   }
   const handleDelete = async (post:Post) => {
