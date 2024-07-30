@@ -38,7 +38,7 @@ const Feed = () => {
     //*debounce method 
     setSearchTimeout(
       setTimeout(() => {
-        const searchResult = filterPrompts(e.target.value);
+        const searchResult = filterPrompts(searchText);
         setSearchedResults(searchResult);
       }, 500)
     );

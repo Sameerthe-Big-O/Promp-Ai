@@ -1,17 +1,18 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import FaceProvider from "next-auth/providers/facebook";
+import FacebookProvider from "next-auth/providers/facebook"; // Correct provider name
 import prisma from "../../../../prisma/client";
-import { GoogleProfile, SessionDate } from "@/types/next-autth/types";
+import { GoogleProfile, SessionDate } from "@/types/next-auth/types"; // Corrected typo
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
-    FaceProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID as string, // Correct environment variables
+      clientSecret: process.env.FACEBOOK_SECRET as string, // Correct environment variables
     }),
   ],
 
@@ -22,10 +23,10 @@ const handler = NextAuth({
       });
       if (sessionUser) {
         session.user.id = sessionUser.id.toString();
-        return session;
       }
+      return session; // Ensure the session is always returned
     },
-    async signIn({ profile }: { profile: GoogleProfile }): Promise<Boolean> {
+    async signIn({ profile }: { profile: GoogleProfile }): Promise<boolean> {
       if (profile) {
         const existingUser = await prisma.user.findUnique({
           where: { email: profile.email },
@@ -47,4 +48,5 @@ const handler = NextAuth({
     },
   },
 });
+
 export { handler as GET, handler as POST };
