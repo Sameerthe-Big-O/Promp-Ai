@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import UserProfile from "@/components/Profile";
 import { Post } from "../interfaces/Post";
 import { Circles } from "react-loader-spinner";
-import { date } from "zod";
-
 const Profile = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -27,7 +25,7 @@ const Profile = () => {
     };
 
     fetchPosts<Post[]>();
-  }, [session?.user.id]);
+  }, [ session]);
 
   const handleEdit = (post: Post) => {
     router.push(`/update-prompt?id=${post.id}`);

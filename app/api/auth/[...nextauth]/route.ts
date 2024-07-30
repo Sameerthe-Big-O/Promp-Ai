@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import FaceProvider from "next-auth/providers/facebook";
 import prisma from "../../../../prisma/client";
 
-console.log(prisma);
+// console.log(prisma);
 const handler = NextAuth({
   providers: [
     GoogleProvider({

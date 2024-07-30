@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "../../components/Form";
 import toast from "react-hot-toast";
@@ -69,4 +69,15 @@ const UpdatePrompt = () => {
   );
 };
 
-export default UpdatePrompt;
+
+function Searchbar() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+
+    <Suspense fallback={ <h1>loading</h1>}>
+      <UpdatePrompt />
+    </Suspense>
+  )
+}
+
+export default Searchbar;
