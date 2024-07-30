@@ -11,7 +11,7 @@ export interface GoogleProfile extends NextAuthProfile {
   picture: string;
 }
 
-export interface SessionDate extends Session {
+export interface SessionDate {
   user: {
     id: string;
     email: string;

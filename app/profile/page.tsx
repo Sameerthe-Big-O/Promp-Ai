@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import UserProfile from "@/components/Profile";
 import { Post } from "../interfaces/Post";
 import { Circles } from "react-loader-spinner";
+import { date } from "zod";
+
 const Profile = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -13,25 +15,24 @@ const Profile = () => {
 
   useEffect(() => {
     //*adding the default type system
-    const fetchPosts = async <ResultType = Record<string, any>>() => {
-      if (session && session.user) {
-        const response = await fetch(`/api/users/${session.user?.id}/posts`);
 
-        const { data } = await response.json();
-        setMyPosts(data);
-        return data;
+    const fetchPosts = async <ResultType = Record<string, any>,>() => {
+      if (session && session.user) {
+        // alert(session.user.id)
+          const response = await fetch(`/api/users/${session.user.id}/posts`);
+          const { data } = await response.json();
+          setMyPosts(data);
+          // return data;
       }
     };
 
-    if (session?.user.id) fetchPosts<Post[]>();
+    fetchPosts<Post[]>();
   }, [session?.user.id]);
 
-
-
-  const handleEdit=(post : Post)=> {
-     router.push(`/update-prompt?id=${post.id}`)
-  }
-  const handleDelete = async (post:Post) => {
+  const handleEdit = (post: Post) => {
+    router.push(`/update-prompt?id=${post.id}`);
+  };
+  const handleDelete = async (post: Post) => {
     const hasConfirmed = confirm(
       "Are you sure you want to delete this prompt?"
     );
@@ -52,7 +53,7 @@ const Profile = () => {
   };
   return (
     <>
-      {myPosts ? (
+      {myPosts  && myPosts.length > 0 ? (
         <UserProfile
           handleEdit={handleEdit}
           handleDelete={handleDelete}

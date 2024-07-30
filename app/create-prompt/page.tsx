@@ -21,7 +21,7 @@ const CreatePrompt = () => {
     setIsSubmitting(true);
 
     try {
-      if (session?.user as SessionDate) {
+      if (session?.user) {
         const response = await fetch("/api/prompt/new", {
           method: "POST",
           body: JSON.stringify({

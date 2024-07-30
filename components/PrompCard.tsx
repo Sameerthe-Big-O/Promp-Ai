@@ -10,13 +10,12 @@ import { Post } from "@/app/interfaces/Post";
 interface PrompCardProps {
   post: Post;
   handleTagClick?: (tagName: string) => void
-  handleEdit?:(id: string) => void
-  handleDelete?:(id:string)=> void
+  handleEdit?:() => void
+  handleDelete?:()=> void
 }
 
 const PrompCard: FC<PrompCardProps> = ({ post, handleTagClick , handleEdit, handleDelete}) => {
 
-  console.log(handleEdit);
   const [copied, setCopied] = useState<string | Boolean>("");
   const { data: session } = useSession();
   //*it reads the current path

@@ -10,7 +10,8 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [searchedResults, setSearchedResults] = useState<Post[]>([]);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+  
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
     const data: Post[] = await response.json();
@@ -32,16 +33,15 @@ const Feed = () => {
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(searchTimeout);
+
     setSearchText(e.target.value);
 
     //*debounce method 
-    setSearchTimeout(
-      setTimeout(() => {
+let searchTimeout =  setTimeout(() => {
         const searchResult = filterPrompts(searchText);
         setSearchedResults(searchResult);
       }, 500)
-    );
+      clearTimeout(searchTimeout);
 
   };
 
