@@ -1,10 +1,25 @@
 import NextAuth from "next-auth";
+import { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FaceProvider from "next-auth/providers/facebook";
 import prisma from "../../../../prisma/client";
 import { GoogleProfile } from "next-auth/providers/google";
 
 // console.log(prisma);
+// Extend next-auth Session and profile interfaces
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      image?: string;
+      name: string;
+    } & DefaultSession["user"];
+  }
+  interface Profile {
+    picture?: string;
+  }
+}
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -29,7 +44,7 @@ const handler = NextAuth({
         }
       }
     },
-    async signIn({ profile }) {
+    async signIn({ user, account, profile, email, credentials }) {
       if (profile) {
         const existingUser = await prisma.user.findUnique({
           where: { email: profile.email },
@@ -39,14 +54,15 @@ const handler = NextAuth({
           return true;
         }
 
-        console.log(profile);
-        await prisma.user.create({
-          data: {
-            name: profile.name as string,
-            email: profile.email as string,
-            image: profile.picture as string,
-          },
-        });
+        if (profile.picture) {
+          await prisma.user.create({
+            data: {
+              name: profile.name as string,
+              email: profile.email as string,
+              image: profile.picture as string,
+            },
+          });
+        }
       }
       return true;
     },
