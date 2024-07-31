@@ -15,7 +15,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
-  secret: "hashbw",
+  secret: process.env.NEXTAUTH_SECRET_INTERNAL,
   callbacks: {
     async session({ session, token, user }): Promise<any> {
       if (session) {
