@@ -7,9 +7,9 @@ export const POST = async (request: NextRequest) => {
   try {
     const newPrompt = await prisma.prompt.create({
       data: {
-        userId: userId,
-        prompt: prompt,
-        tag: tag,
+        userId: userId as string,
+        prompt: prompt as string,
+        tag: tag as string,
       },
     });
     return new Response(JSON.stringify(newPrompt), { status: 201 });
