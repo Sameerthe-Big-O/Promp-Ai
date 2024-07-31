@@ -1,15 +1,16 @@
 import prisma from "../../../../prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   const { userId, prompt, tag } = await request.json();
 
   try {
+    console.log(userId);
     const newPrompt = await prisma.prompt.create({
       data: {
-        userId: userId as string,
-        prompt: prompt as string,
-        tag: tag as string,
+        userId: userId,
+        prompt: prompt,
+        tag: tag,
       },
     });
     return new Response(JSON.stringify(newPrompt), { status: 201 });

@@ -5,13 +5,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Form from "../../components/Form";
-import { SessionDate } from "@/types/next-autth/types";
-import Feed from "@/components/Feed";
 
 const CreatePrompt = () => {
   const router = useRouter();
 
   const { data: session } = useSession();
+  console.log(session);
 
   const [submitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({ prompt: "", tag: "" });
@@ -22,6 +21,7 @@ const CreatePrompt = () => {
 
     try {
       if (session?.user) {
+        console.log(post.prompt, session?.user?.id, post.tag);
         const response = await fetch("/api/prompt/new", {
           method: "POST",
           body: JSON.stringify({
@@ -31,11 +31,12 @@ const CreatePrompt = () => {
           }),
         });
 
-        setTimeout(()=> {
+        setTimeout(() => {
           if (response.ok) {
+            console.log("ass");
             router.push("/");
           }
-        },1000)
+        }, 1000);
       }
       toast.success("Prompt created successfully!");
     } catch (error) {
@@ -46,7 +47,6 @@ const CreatePrompt = () => {
   };
 
   return (
-
     <Form
       type="Create"
       post={post}
@@ -54,7 +54,6 @@ const CreatePrompt = () => {
       submitting={submitting}
       handleSubmit={createPrompt}
     />
-
   );
 };
 

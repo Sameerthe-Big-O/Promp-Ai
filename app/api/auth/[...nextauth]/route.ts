@@ -19,15 +19,15 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
-  secret: process.env.NEXT_PUBLIC_SECRET,
+  // secret: process.env.NEXT_PUBLIC_SECRET,
   callbacks: {
-    async session({ session, token, user }): Promise<any> {
+    async session({ session }): Promise<any> {
       if (session) {
         const sessionUser = await prisma.user.findUnique({
           where: { email: session.user.email },
         });
         if (sessionUser) {
-          session.user.id = token.id as string;
+          session.user.id = sessionUser.id as string;
           return session;
         }
       }
