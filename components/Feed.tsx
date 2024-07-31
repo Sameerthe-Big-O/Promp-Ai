@@ -10,8 +10,10 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [searchedResults, setSearchedResults] = useState<Post[]>([]);
-  const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
-  
+  const [searchTimeout, setSearchTimeout] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
     const data: Post[] = await response.json();
@@ -33,20 +35,17 @@ const Feed = () => {
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-
     setSearchText(e.target.value);
 
-    //*debounce method 
-let searchTimeout =  setTimeout(() => {
-        const searchResult = filterPrompts(searchText);
-        setSearchedResults(searchResult);
-      }, 500)
-      clearTimeout(searchTimeout);
-
+    //*debounce method
+    let searchTimeout = setTimeout(() => {
+      const searchResult = filterPrompts(searchText);
+      setSearchedResults(searchResult);
+    }, 500);
+    clearTimeout(searchTimeout);
   };
 
   const handleTagClick = (tagName: string) => {
-    
     setSearchText(tagName);
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
@@ -81,7 +80,9 @@ let searchTimeout =  setTimeout(() => {
           <Prompts data={searchedResults} handleTagClick={handleTagClick} />
         ) : Array.isArray(allPosts) && allPosts.length > 0 ? (
           <Prompts data={allPosts} handleTagClick={handleTagClick} />
-        ) : (
+        ) : 
+        Array.isArray(allPosts) && allPosts.length !== 0 ? 
+        (
           <Circles
             height="60"
             width="60"
@@ -91,7 +92,8 @@ let searchTimeout =  setTimeout(() => {
             wrapperClass=""
             visible={true}
           />
-        )}
+        ):<h1>no promps</h1>
+      }
       </Suspense>
     </section>
   );
