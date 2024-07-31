@@ -19,7 +19,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
-  // secret: process.env.NEXT_PUBLIC_SECRET,
+  secret: process.env.NEXT_PUBLIC_SECRET,
   callbacks: {
     async session({ session }): Promise<any> {
       if (session) {
