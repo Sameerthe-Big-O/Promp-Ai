@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FaceProvider from "next-auth/providers/facebook";
 import prisma from "../../../../prisma/client";
+import { GoogleProfile } from "next-auth/providers/google";
 
 // console.log(prisma);
 const handler = NextAuth({
@@ -43,7 +44,7 @@ const handler = NextAuth({
           data: {
             name: profile.name as string,
             email: profile.email as string,
-            image: profile.image as string,
+            image: profile.picture as string,
           },
         });
       }
