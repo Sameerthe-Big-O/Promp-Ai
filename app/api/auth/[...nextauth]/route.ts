@@ -7,19 +7,7 @@ import { GoogleProfile } from "next-auth/providers/google";
 
 // console.log(prisma);
 // Extend next-auth Session and profile interfaces
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      email: string;
-      image?: string;
-      name: string;
-    } & DefaultSession["user"];
-  }
-  interface Profile {
-    picture?: string;
-  }
-}
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
