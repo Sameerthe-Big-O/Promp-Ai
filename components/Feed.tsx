@@ -80,9 +80,7 @@ const Feed = () => {
           <Prompts data={searchedResults} handleTagClick={handleTagClick} />
         ) : Array.isArray(allPosts) && allPosts.length > 0 ? (
           <Prompts data={allPosts} handleTagClick={handleTagClick} />
-        ) : 
-        Array.isArray(allPosts) && allPosts.length !== 0 ? 
-        (
+        ) : (
           <Circles
             height="60"
             width="60"
@@ -92,8 +90,7 @@ const Feed = () => {
             wrapperClass=""
             visible={true}
           />
-        ):<h1>no promps</h1>
-      }
+        )}
       </Suspense>
     </section>
   );

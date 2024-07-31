@@ -38,6 +38,7 @@ const handler = NextAuth({
           return true;
         }
 
+        console.log(profile);
         await prisma.user.create({
           data: {
             name: profile.name as string,
